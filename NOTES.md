@@ -23,13 +23,54 @@
 - in `String::new`, `::` indicates that `new` is an associated function of the `String` type
 -  In `println!("x = {x} and y + 2 = {}", y + 2);` The `{}` it's the placeholder of the function param and `{x}` of the `x` variable
 
-### Variables
+### Variables, constants
 
 - In Rust variables are immutable by default, to specify mutability, use: let mut
 - `&` indicates that *(for example)* the argument passing, is a reference. This gives you a way to let multiple parts of your code access one piece of data without needing to copy that data into memory multiple times.
 - like variables, references are immutable by default
-- Shadowing allows you redifine the variables as constants again
+- Shadowing allows you redifine the variables declared with `let`, 
+- You can't sadow a variable declared with `let mut`, 
+- Constants are inmutable, and using the `const` one must specify the type
+- Rust’s naming convention for constants is to use all uppercase with underscores between words. 
+- Constants are valid for the entire time a program runs, within the scope in which they were declared.
+- Rust is a statically typed language, which means that it must know the types of all variables at compile time
 
+### Scalars
+
+- Rus has 4 types of scalars, integers, floating point, boolean, char
+- **Integers** - *i8,u8, i32, u32, i64, u64, i16, u16, i128, u128, isize, usize*
+- **Floating point** - *f32, f64*
+- **Boolean** - *bool*
+- **Char** - *char*, specified with signle quotes `'ℤ'` as opposed to string literals
+- isize and usize depend on the architecture you are running on 32 or 64 bits
+- singed integers has a range of -(2n - 1) to 2n - 1 - 1 inclusive.
+- unsigned integer have a range of 0 to 2n - 1.
+- **Decimal** - 98_222
+- **Hex** - 0xff
+- **Octal** - 0o77
+- **Binary** - 0b1111_0000
+- **Byte** - (u8 only) b'A'
+- Numeric literals can use `_` as a visual separator to make the number easier to read, such as `1_000`
+- In debug mode Rust includes checks for integer overflow that cause your program to panic at runtime
+- Compiling in release mode with the --release flag, Rust does not include checks for integer overflow that cause panics. Relying on integer overflow’s wrapping behavior is considered an error.
+
+### Compound Types
+```rust
+let tup = (500, 6.4, 1);
+let (x, y, z) = tup;
+let o = tup.1;
+println!("The value of y is: {y} and {o}");
+```
+- Compound types can group multiple values into one type. Rust has two primitive compound types: tuples and arrays. Tuples and Arrays.
+- Tuples have a fixed length: once declared, they cannot grow or shrink in size.
+- You can destructurue a compound type
+- Access a tuple element directly by using a period `.`
+```rust
+let: [i32; 5] a = [1, 2, 3, 4, 5];
+let b = [3; 5]; // [3, 3, 3, 3, 3]
+let second = a[1];
+```
+- Arrays are useful when you want your data allocated on the stack rather than the heap
 
 ### Ranges
 
@@ -42,11 +83,11 @@ let secret_number = rand::thread_rng().gen_range(1..=100);
 ### Matches
 
 ```rust
-    match guess.cmp(&secret_number) {
-        Ordering::Less => println!("Too small!"),
-        Ordering::Greater => println!("Too big!"),
-        Ordering::Equal => println!("You win!"),
-    }
+match guess.cmp(&secret_number) {
+    Ordering::Less => println!("Too small!"),
+    Ordering::Greater => println!("Too big!"),
+    Ordering::Equal => println!("You win!"),
+}
 ```
 
 - A match expression is made up of arms. An arm consists of a pattern to match against, and the code that should be run if the value given to match fits that arm’s pattern. 
@@ -76,6 +117,7 @@ let secret_number = rand::thread_rng().gen_range(1..=100);
  `Result` may be an `Err` variant, which should be handled.
 - The right way to suppress the warning is to actually write error-handling code, but in our case we just want to crash this program when a problem occurs, so we can use `.expect`. 
 - The underscore, `_`, is a catchall value; `Err(_) => continue` we’re saying we want to match all Err values, no matter what information they have inside them.
+- Panicking is when a program exits with an error; 
 
 ### Crates
 
