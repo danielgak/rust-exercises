@@ -9,6 +9,7 @@
 - **cargo run** - builds and run
 - **cargo check** - check if compiles
 - **cargo update** - recalculates Cargo.lock to bump minor versions
+- **cargo doc --open** - generates and open the docs for all your dependencies
 
 ## Notes
 
@@ -22,14 +23,38 @@
 - in `String::new`, `::` indicates that `new` is an associated function of the `String` type
 -  In `println!("x = {x} and y + 2 = {}", y + 2);` The `{}` it's the placeholder of the function param and `{x}` of the `x` variable
 
-### Macros
-- println!() calls a macro, different from println() that would be calling a function
-
 ### Variables
 
 - In Rust variables are immutable by default, to specify mutability, use: let mut
 - `&` indicates that *(for example)* the argument passing, is a reference. This gives you a way to let multiple parts of your code access one piece of data without needing to copy that data into memory multiple times.
 - like variables, references are immutable by default
+- Shadowing allows you redifine the variables as constants again
+
+
+### Ranges
+
+```rust
+let secret_number = rand::thread_rng().gen_range(1..=100);
+```
+
+- Expresed like `start..=end` is inclusive on the lower and upper bounds, so we need to specify `1..=100` to request a number between 1 and 100.
+
+### Matches
+
+```rust
+    match guess.cmp(&secret_number) {
+        Ordering::Less => println!("Too small!"),
+        Ordering::Greater => println!("Too big!"),
+        Ordering::Equal => println!("You win!"),
+    }
+```
+
+- A match expression is made up of arms. An arm consists of a pattern to match against, and the code that should be run if the value given to match fits that arm’s pattern. 
+- Patterns and the match construct are powerful Rust features: they let you express a variety of situations your code might encounter and they make sure you handle them all. 
+
+### Macros
+
+- println!() calls a macro, different from println() that would be calling a function
 
 ### Libraries
 
@@ -48,8 +73,9 @@
 ### Error handling
 
 - If you don’t call expect, the program will compile, but you’ll get a warning.
-> this `Result` may be an `Err` variant, which should be handled
+ `Result` may be an `Err` variant, which should be handled.
 - The right way to suppress the warning is to actually write error-handling code, but in our case we just want to crash this program when a problem occurs, so we can use `.expect`. 
+- The underscore, `_`, is a catchall value; `Err(_) => continue` we’re saying we want to match all Err values, no matter what information they have inside them.
 
 ### Crates
 
