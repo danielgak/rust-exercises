@@ -55,22 +55,27 @@
 - Compiling in release mode with the --release flag, Rust does not include checks for integer overflow that cause panics. Relying on integer overflow’s wrapping behavior is considered an error.
 
 ### Compound Types
+
 ```rust
 let tup = (500, 6.4, 1);
 let (x, y, z) = tup;
 let o = tup.1;
 println!("The value of y is: {y} and {o}");
 ```
+
 - Compound types can group multiple values into one type. Rust has two primitive compound types: tuples and arrays. Tuples and Arrays.
 - Tuples have a fixed length: once declared, they cannot grow or shrink in size.
 - You can destructurue a compound type
 - Access a tuple element directly by using a period `.`
+
 ```rust
 let: [i32; 5] a = [1, 2, 3, 4, 5];
 let b = [3; 5]; // [3, 3, 3, 3, 3]
 let second = a[1];
 ```
+
 - Arrays are useful when you want your data allocated on the stack rather than the heap
+- if the accesed index is greater than or equal to the length, Rust will panic
 
 ### Ranges
 
@@ -79,6 +84,33 @@ let secret_number = rand::thread_rng().gen_range(1..=100);
 ```
 
 - Expresed like `start..=end` is inclusive on the lower and upper bounds, so we need to specify `1..=100` to request a number between 1 and 100.
+
+### Functions 
+
+- `fn` Rust code uses snake case as the conventional style for function and variable names
+- Rust doesn’t care where you define your functions
+- You must declare the type of each parameter on function signatures
+- You must specify function’s return eg.`-> i32`
+- **Statements** are instructions that perform some action and do not return a value.
+- **Expressions** evaluate to a resultant value. 
+```rust
+fn main() {
+    let y = 6;  // the 6 in the statement, let y = 6 is an expression
+    let x = (let y = 6); // this can't be done as the assignment can only be done into an expresionn
+}
+```
+- **Expressions** can be part of **statements**
+- A new scope block created with curly brackets is an **expression**
+```rust
+fn main() {
+    let y = { // expresion bc x + 1 does not have a semicolon
+        let x = 3;
+        x + 1
+    };
+
+    println!("The value of y is: {y}");
+}
+```
 
 ### Matches
 
