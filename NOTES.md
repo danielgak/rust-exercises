@@ -112,6 +112,51 @@ fn main() {
 }
 ```
 
+### Control flow
+
+- condition in this code must be a bool
+- Blocks of code associated with the conditions in if expressions are sometimes also called arms (as in Matchers)
+- Because if is an expression, we can use it on the right side of a let statement to assign the outcome to a variable. Eg. `let number = if condition { 5 } else { 6 };`
+- Rust can detect that this: `let number = if condition { 5 } else { "six" };` is an error, as number inference is not possible.s
+- `if`, `else` and `else if` are valid expresions.
+- `loop`, `while`, and `for` are available.
+- break can return a value in a loop. `break` only exits the current loop, `return` always exits the current function.
+```rust
+let mut number = loop { // break can return
+    counter += 1; 
+    if counter == 10 {
+        }
+        break counter * 2;
+};
+
+while number != 0 { // while
+    number -= 1;
+}
+
+let a = [10, 20, 30, 40, 50]; // for elements 
+for element in a {
+    println!("the value is: {element}");
+}
+
+for number in (1..4).rev() { // for 
+    println!("{number}!");
+}
+
+```
+- nested loops can be broken and continued from any point inside of the loop, even in the innermost loop. Label the parent loop, and reference it in the break.
+```rust
+'counting_up: loop {
+    // something
+    loop {
+        // something
+        if count == 2 {
+            break 'counting_up;
+        }
+    }
+}
+```
+
+
 ### Matches
 
 ```rust
@@ -123,6 +168,7 @@ match guess.cmp(&secret_number) {
 ```
 
 - A match expression is made up of arms. An arm consists of a pattern to match against, and the code that should be run if the value given to match fits that arm’s pattern. 
+
 - Patterns and the match construct are powerful Rust features: they let you express a variety of situations your code might encounter and they make sure you handle them all. 
 
 ### Macros
