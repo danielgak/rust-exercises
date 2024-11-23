@@ -189,6 +189,26 @@ match guess.cmp(&secret_number) {
 - an enumeration, often called an enum, which is a type that can be in one of multiple possible states. We call each possible state a variant.
 - The purpose of these `Result` types is to encode error-handling information. `Result`’s variants are `Ok` and `Err`. The `Ok` variant indicates the operation was successful, and inside `Ok` is the successfully generated value. The `Err` variant means the operation failed, and `Err` contains information about how or why the operation failed.
 
+### The Stack and the Heap
+
+The stack and the heap are parts of memory available to your code to use at runtime, but they are structured in different ways.
+
+- The stack stores values in the order it gets them and removes the values in the opposite order.  Data with an unknown size at compile time or a size that might change must be stored on the heap instead.
+- The heap is less organized. To stroe a value in the heap, the memory allocator finds an empty spot in the heap that is big enough, marks it as being in use, and returns a pointer, which is the address of that location. *(allocating)*
+- Pushing to the stack is faster. Allocating space on the heap requires more work because the allocator must first find a big enough space to hold the data and then perform bookkeeping to prepare for the next allocation
+- Accessing data in the heap is slower than accessing data on the stack because you have to follow a pointer to get there. re. Contemporary processors are faster if they jump around less in memory (stack).
+- When code calls a function, the values passed into the function (including, potentially, pointers to data on the heap) and the function’s local variables get pushed onto the stack. When the function is over, those values get popped off the stack.
+- `string` literals are treated as inmutable hardcoded values so then can be stored in the stack. `String` is the mutable datastructure so it's stored in the heap.
+- `String::from` requests the memory it needs from the memory allocator at runtime, but the droping it's managed by **rust ownership**
+
+### Ownership
+
+Rust manages memory is managed through a system of ownership *(data cleaning up, duplication etc)*. There are three core rules:
+1. Each value in Rust has an owner.
+2. There can only be one owner at a time.
+3. When the owner goes out of scope, the value will be dropped.
+
+
 ### Error handling
 
 - If you don’t call expect, the program will compile, but you’ll get a warning.
