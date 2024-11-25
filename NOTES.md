@@ -31,7 +31,7 @@
 - Shadowing allows you redifine the variables declared with `let`, 
 - You can't sadow a variable declared with `let mut`, 
 - Constants are inmutable, and using the `const` one must specify the type
-- Rust’s naming convention for constants is to use all uppercase with underscores between words. 
+- Rust's naming convention for constants is to use all uppercase with underscores between words. 
 - Constants are valid for the entire time a program runs, within the scope in which they were declared.
 - Rust is a statically typed language, which means that it must know the types of all variables at compile time
 
@@ -52,7 +52,7 @@
 - **Byte** - (u8 only) b'A'
 - Numeric literals can use `_` as a visual separator to make the number easier to read, such as `1_000`
 - In debug mode Rust includes checks for integer overflow that cause your program to panic at runtime
-- Compiling in release mode with the --release flag, Rust does not include checks for integer overflow that cause panics. Relying on integer overflow’s wrapping behavior is considered an error.
+- Compiling in release mode with the --release flag, Rust does not include checks for integer overflow that cause panics. Relying on integer overflow's wrapping behavior is considered an error.
 
 ### Compound Types
 
@@ -88,9 +88,9 @@ let secret_number = rand::thread_rng().gen_range(1..=100);
 ### Functions 
 
 - `fn` Rust code uses snake case as the conventional style for function and variable names
-- Rust doesn’t care where you define your functions
+- Rust doesn't care where you define your functions
 - You must declare the type of each parameter on function signatures
-- You must specify function’s return eg.`-> i32`
+- You must specify function's return eg.`-> i32`
 - **Statements** are instructions that perform some action and do not return a value.
 - **Expressions** evaluate to a resultant value. 
 ```rust
@@ -167,7 +167,7 @@ match guess.cmp(&secret_number) {
 }
 ```
 
-- A match expression is made up of arms. An arm consists of a pattern to match against, and the code that should be run if the value given to match fits that arm’s pattern. 
+- A match expression is made up of arms. An arm consists of a pattern to match against, and the code that should be run if the value given to match fits that arm's pattern. 
 
 - Patterns and the match construct are powerful Rust features: they let you express a variety of situations your code might encounter and they make sure you handle them all. 
 
@@ -179,7 +179,7 @@ match guess.cmp(&secret_number) {
 
 - Rust has a set of items in the std libary, that it brings to every program. This set it's the [prelude](https://doc.rust-lang.org/std/prelude/index.html).
 - `String::new` is a function that returns a new instance of a `String`.  String is a string type provided by the standard library that is a growable, UTF-8 encoded bit of text.
-- If we hadn’t imported the io library with use `std::io;` at the beginning of the program, we could still use the function by writing this function call as `std::io::stdin`. 
+- If we hadn't imported the io library with use `std::io;` at the beginning of the program, we could still use the function by writing this function call as `std::io::stdin`. 
 - Cargo uses [Semantic Versioning](https://semver.org/)
 - Cargo uses [Crates.io](https://crates.io/) as the main registry
 - When Cargo downloads dependencies, it grabbs other crates that your project dependency depends on to work. After downloading the crates, Rust compiles them and then compiles the project with the dependencies available.
@@ -200,6 +200,9 @@ The stack and the heap are parts of memory available to your code to use at runt
 - When code calls a function, the values passed into the function (including, potentially, pointers to data on the heap) and the function’s local variables get pushed onto the stack. When the function is over, those values get popped off the stack.
 - `string` literals are treated as inmutable hardcoded values so then can be stored in the stack. `String` is the mutable datastructure so it's stored in the heap.
 - `String::from` requests the memory it needs from the memory allocator at runtime, but the droping it's managed by **rust ownership**
+- languages with **garbage collection** has a dedicated proeccess that keeps track of and cleans up memory that isn’t being used anymore
+- in languages without garbage collection, memory removal it's done manually thogh `allocate` and `free`
+- when pointers are shared, there exist a known issue as `the double free error` that can lead memory corruption, which can potentially lead to security vulnerabilities. This is also avoided by **rust ownership**
 
 ### Ownership
 
@@ -207,20 +210,110 @@ Rust manages memory is managed through a system of ownership *(data cleaning up,
 1. Each value in Rust has an owner.
 2. There can only be one owner at a time.
 3. When the owner goes out of scope, the value will be dropped.
+```rust
+let s1 = String::from("hello"); // pointer, capacity and len is stored in the stack, the rest is on the heap
+let s2 = s1; // s1 is no longer valid, s2 will call drop once it leaves the scope
+```
+- Rust does not have the concept of shallowing copying, instead it **moves**
+- Rust will never automatically create “deep” copies of your data. 
+```rust
+let s1 = String::from("hello"); 
+let s2 = s1.clone(); // this is a deep copy, the heap data gets duplicated
+
+let x = 5;
+let y = x; // integer implements copy trait, so it does not invalidate
+```
+- Data types with known size at compile time are stored entirely on the stack, so no difference between shallow and deep copying here. This means that *integers*, 
+*booleans*, *floats*, *chars* and *tuples* implement the Copy trait by default, meaning that they always copy and do not invalidate
+- using a function applies same ownership rules as on variable assignment
+```rust
+let s = String::from("hello");  // s comes into scope
+takes_ownership(s); // and owneship is given to the function (moved) so the pointer it's no longer valid here
+
+let s2 = String::from("hello2");
+let s3 = takes_and_gives_back(s2); // here you move away the scope, and take it back
+```
+- This design choice makes that invoking functions and reassining is a very common thing, and the tuple plays nicely into this allowing to return multiple values
+- A `reference` `&` in Rust is like a pointer, an address we can follow to access the data. That data is owned by some other variable. 
+- Unlike a traditional `pointer`, a `reference` is guaranteed to point to a valid value of a particular type for the life of that reference.
+- The opposite of referencing by using `&` is dereferencing, which is accomplished with the dereference operator, `*`
+```rust
+let s1 = String::from("hello");
+let len = calculate_length(&s1); // The &s1 syntax lets us create a reference that refers to the value of s1 but does not own it.
+// But because it does own it, the value is not dropped
+```
+- We call the action of creating a reference **borrowing**. 
+- Just as variables are immutable by default, so are references: you cant modify a borrowed var
+```rust
+let mut s = String::from("hello");
+change(&mut s);
+
+fn change(some_string: &mut String) {}
+```
+- a `mutable reference` can be modified
+```rust 
+let mut s = String::from("hello");
+
+let r1 = &mut s;
+// let r2 = &mut s; only one mut borrow!
+// ... r's used
+```
+- Mutable references have one big restriction: if you have a mutable reference to a value, you can have no other references to that value. The benefit is that Rust can prevent data races at compile time.
+- Curly brackets can be used to create a new scope, allowing for multiple mutable references, just not simultaneous ones:
+```rust
+let mut s = String::from("hello");
+{
+    let r1 = &mut s;
+} // r1 goes out of scope here, so we can make a new reference with no problems.
+
+let r2 = &mut s;
+```
+- A mutable reference while we have an immutable one to the same value, its not allowed either
+```rust
+let mut s = String::from("hello");
+
+let r1 = &s; // no problem
+let r2 = &s; // no problem
+let r3 = &mut s; // problemo
+// ... r's used
+```
+- Note that a reference's scope starts from where it is introduced and continues through the last time that reference is used
+``` rust 
+let r1 = &s; // no problem
+let r2 = &s; // no problem
+println!("{r1} and {r2}");
+// variables r1 and r2 will not be used after this point
+
+let r3 = &mut s; // now, no problem!
+println!("{r3}");
+```
+-  In Rust the compiler guarantees that references will never be dangling references
+
+And by summary:
+- At any given time, you can have either one mutable reference or any number of immutable references.
+- References must always be valid.
+
+### Data racing
+
+A data race is similar to a race condition and happens when these three behaviors occur:
+
+- Two or more pointers access the same data at the same time.
+- At least one of the pointers is being used to write to the data.
+- There's no mechanism being used to synchronize access to the data.
 
 
 ### Error handling
 
-- If you don’t call expect, the program will compile, but you’ll get a warning.
+- If you don't call expect, the program will compile, but you'll get a warning.
  `Result` may be an `Err` variant, which should be handled.
 - The right way to suppress the warning is to actually write error-handling code, but in our case we just want to crash this program when a problem occurs, so we can use `.expect`. 
-- The underscore, `_`, is a catchall value; `Err(_) => continue` we’re saying we want to match all Err values, no matter what information they have inside them.
+- The underscore, `_`, is a catchall value; `Err(_) => continue` we're saying we want to match all Err values, no matter what information they have inside them.
 - Panicking is when a program exits with an error; 
 
 ### Crates
 
 - When you build with `cargo build`. The project that you build is a **binary crate**, which is an executable. 
-- A **library crate** its different from a **binary crate**. A **libary crate** contains code that is intended to be used in other programs and can’t be executed on its own.
+- A **library crate** its different from a **binary crate**. A **libary crate** contains code that is intended to be used in other programs and can't be executed on its own.
 
 ### Cargo.lock
 
