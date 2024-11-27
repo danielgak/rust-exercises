@@ -302,6 +302,27 @@ A data race is similar to a race condition and happens when these three behavior
 - There's no mechanism being used to synchronize access to the data.
 
 
+### Slices
+
+- Slices let you reference a contiguous sequence of elements in a collection rather than the whole collection. A slice is a kind of reference, so it does not have ownership.
+```rust
+let s = String::from("hello world");
+
+let hello = &s[0..5]; // same as &s[..5]
+let world = &s[6..11]; //a pointer to the same date but sarting from a different position
+
+let s2 = "hello world"; // this string literal, stores in the binary
+// type of s here is &str, so its inmutable
+````
+- slices also works with any type of arrays
+```rust
+let a = [1, 2, 3, 4, 5];
+let slice = &a[1..3];
+assert_eq!(slice, &[2, 3]);
+```
+
+
+
 ### Error handling
 
 - If you don't call expect, the program will compile, but you'll get a warning.
