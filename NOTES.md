@@ -321,7 +321,34 @@ let slice = &a[1..3];
 assert_eq!(slice, &[2, 3]);
 ```
 
+### Structs
 
+- you can use field init shorthand eg. `User { email, name: "something" }`
+- `..` is the struct update syntax, similars as typescript but does not "deconstruct" already provided values
+```rust
+let user2 = User {
+    email: String::from("another@example.com"),
+    ..user1 // this has email, but the one used is above
+    // as this is a =, it moves the value! so user1 is no longer valid
+};
+```
+- note that the scruct owns email
+- you can create stucture tuples also, eg. `struct Color(i32, i32, i32);`
+- you can create unitlike structs without data eg. `struct AlwaysEqual;` similar to empty tuples `()`
+- Unit-like sturcts can be used when you need to implement a trait on some type, but don’t have any data that you want to store in the type itself
+- To print structs, you must implement the `Display` trait
+- To debug structs, you can print them with `{:?}` notation adding `#[derive(Debug)]` statement into the struct definition, or with `dbg!` to output more information
+- first parameter in a impl block when method definition eg `fn area(&self)` the self is a shortcut to `self: &Self`.
+- methods can take ownership of self, borrow self immutably, or borrow self mutably, just as they can any other parameter.
+- methods and attributes can be named the same
+- Rust does automatic referencing and dereferencing. When you call a method with object.something(), Rust automatically adds in &, &mut, or * so object matches the signature of the method.
+```rust
+p1.distance(&p2); // both are the same 
+(&p1).distance(&p2); 
+```
+- in the impl scope, `Self` is a keyword used to refer to the subject of the impl block
+- Asociated functions are defined in the impl and do not have self as their first parameter. eg `Rectangle::square(2)`. They are often used as constructors
+- Struct is allowed to have multiple impl blocks
 
 ### Error handling
 
