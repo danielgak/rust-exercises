@@ -350,6 +350,30 @@ p1.distance(&p2); // both are the same
 - Asociated functions are defined in the impl and do not have self as their first parameter. eg `Rectangle::square(2)`. They are often used as constructors
 - Struct is allowed to have multiple impl blocks
 
+### Enums
+- a custom data type, eg. `IpAddrKind::V4`
+- Rust allows puting data directly into each enum variant, eg:
+```rust
+enum IpAddr {
+    V4(String),
+    V6(String),
+}
+
+let home = IpAddr::V4(String::from("127.0.0.1"));
+```
+- Rust does not have `null`, because in languages with null, variables can always be in one of two states: null or not-null.
+- The concept that null is trying to express is still a useful one: a null is a value that is currently invalid or absent for some reason.
+- `Option<T>` enum encodes a value that could be something or it could be nothing. Containing always `Some` and `None`.
+```rust
+let some_number = Some(5);
+let some_char = Some('e');
+
+let absent_number: Option<i32> = None;
+```
+
+
+
+
 ### Error handling
 
 - If you don't call expect, the program will compile, but you'll get a warning.
