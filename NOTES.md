@@ -243,7 +243,7 @@ let len = calculate_length(&s1); // The &s1 syntax lets us create a reference th
 // But because it does own it, the value is not dropped
 ```
 - We call the action of creating a reference **borrowing**. 
-- Just as variables are immutable by default, so are references: you cant modify a borrowed var
+- Just as variables are immutable by default, so are references: you can't modify a borrowed var
 ```rust
 let mut s = String::from("hello");
 change(&mut s);
@@ -258,7 +258,7 @@ let r1 = &mut s;
 // let r2 = &mut s; only one mut borrow!
 // ... r's used
 ```
-- Mutable references have one big restriction: if you have a mutable reference to a value, you can have no other references to that value. The benefit is that Rust can prevent data races at compile time.
+- Mutable references have one big restriction: if you have a mutable reference to a value, you can't have no other references to that value. The benefit is that Rust can prevent data races at compile time.
 - Curly brackets can be used to create a new scope, allowing for multiple mutable references, just not simultaneous ones:
 ```rust
 let mut s = String::from("hello");
@@ -275,7 +275,7 @@ let mut s = String::from("hello");
 let r1 = &s; // no problem
 let r2 = &s; // no problem
 let r3 = &mut s; // problemo
-// ... r's used
+println!("{r1} and {r2}"); // these 3 reference can't coexist
 ```
 - Note that a reference's scope starts from where it is introduced and continues through the last time that reference is used
 ``` rust 
@@ -284,7 +284,7 @@ let r2 = &s; // no problem
 println!("{r1} and {r2}");
 // variables r1 and r2 will not be used after this point
 
-let r3 = &mut s; // now, no problem!
+let r3 = &mut s; // now, no problem! rust knows that r1 and r2 no longer a re used
 println!("{r3}");
 ```
 -  In Rust the compiler guarantees that references will never be dangling references
@@ -330,9 +330,8 @@ let user2 = User {
     email: String::from("another@example.com"),
     ..user1 // this has email, but the one used is above
     // as this is a =, it moves the value! so user1 is no longer valid
-};
+}; // note that the "scruct User" owns the email attribute
 ```
-- note that the scruct owns email
 - you can create stucture tuples also, eg. `struct Color(i32, i32, i32);`
 - you can create unitlike structs without data eg. `struct AlwaysEqual;` similar to empty tuples `()`
 - Unit-like sturcts can be used when you need to implement a trait on some type, but don’t have any data that you want to store in the type itself
@@ -370,9 +369,36 @@ let some_char = Some('e');
 
 let absent_number: Option<i32> = None;
 ```
-
-
-
+- Or even go crazier with the times in it
+```rust
+enum Message {
+    Quit, //  no data
+    Move { x: i32, y: i32 }, // named fields
+    Write(String),
+    ChangeColor(i32, i32, i32), // tuple
+}
+```
+- Defining an enum with variants such as before, it's equivalent to have 3 different structs but grouped together under the Message type.
+- `match` allows you to compare a value against a series of patterns, that can be values, variable names, wildcards, etc.
+- the `arms` in pattern of the match, must cover all cases of the enum that you are matching against
+```rust
+let dice_roll = 9;
+match dice_roll {
+    3 => add_fancy_hat(),
+    7 => remove_fancy_hat(),
+    other => move_player(other), // catch all
+}
+```
+- use `_ => reroll()` or `_ => ()` for example as a catch all pattern where the `_` is telling rust that the value wont be used
+- with an if let expresion you can achieve same behaviour in some cases, less bervose
+```rust
+let mut count = 0;
+if let Coin::Quarter(state) = coin {
+    println!("State quarter from {state:?}!");
+} else {
+    count += 1;
+}
+```
 
 ### Error handling
 

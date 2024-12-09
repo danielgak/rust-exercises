@@ -13,9 +13,14 @@ fn main() {
     println!("{area} {area2}");
     println!("{user:?}");
     println!("{user:#?}");
-    dbg!(&user); // linecode added
+    dbg!(&user); // linecode amended to log and extra info
+
+    let area = Rectangle::square(13).area();
+
+    let subject = AlwaysEqual;
 }
 
+// similar to a constructor
 fn build_user(email: String, username: String) -> User {
     User {
         active: true,
@@ -25,6 +30,7 @@ fn build_user(email: String, username: String) -> User {
     }
 }
 
+// allowing to print debug
 #[derive(Debug)]
 struct User {
     active: bool,
@@ -38,6 +44,7 @@ struct Rectangle {
     y: u64,
 }
 
+// adding functions to a rectangle
 impl Rectangle {
     fn area(&self) -> u64 {
         self.x * self.y
@@ -51,3 +58,6 @@ impl Rectangle {
 fn calc_area(rect: &Rectangle) -> u64 {
     rect.x * rect.y
 }
+
+// unit like struct
+struct AlwaysEqual;
