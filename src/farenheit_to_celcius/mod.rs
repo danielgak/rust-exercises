@@ -1,6 +1,6 @@
 use std::io;
 
-fn main() {
+pub fn main() {
     println!("Farenheit to celcius");
     let farenheit = loop {
         let mut farenheit_string = String::new();

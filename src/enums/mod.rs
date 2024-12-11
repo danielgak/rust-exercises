@@ -27,7 +27,7 @@ impl Message {
     }
 }
 
-fn main() {
+pub fn main() {
     let _four = IpAddr::V4(127, 0, 0, 1);
     let _six = IpAddr::V6(String::from("::1"));
 
@@ -43,10 +43,11 @@ fn main() {
     println!("{sum}");
 
     println!("{}", value_in_cents(Coin::Nickel));
-    println!("{}", value_in_cents(Coin::Quarter((UsState::Alaska))))
+    println!("{}", value_in_cents(Coin::Quarter(UsState::Alaska)));
 
     let config_max = Some(3u8);
     if let Some(max) = config_max {
+        // similar as match but less verbose
         println!("The maximum is configured to be {max}");
     }
 }

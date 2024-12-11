@@ -1,6 +1,6 @@
 use std::io;
 
-fn main() {
+pub fn main() {
     let mut text = String::new();
     io::stdin()
         .read_line(&mut text)

@@ -1,4 +1,4 @@
-fn main() {
+pub fn main() {
     let mut user = build_user(
         String::from("someusername123"),
         String::from("someone@example.com"),
@@ -18,6 +18,7 @@ fn main() {
     let area = Rectangle::square(13).area();
 
     let subject = AlwaysEqual;
+    println!("{area} {subject:#?}");
 }
 
 // similar to a constructor
@@ -60,4 +61,5 @@ fn calc_area(rect: &Rectangle) -> u64 {
 }
 
 // unit like struct
+#[derive(Debug)]
 struct AlwaysEqual;

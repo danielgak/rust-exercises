@@ -408,11 +408,6 @@ if let Coin::Quarter(state) = coin {
 - The underscore, `_`, is a catchall value; `Err(_) => continue` we're saying we want to match all Err values, no matter what information they have inside them.
 - Panicking is when a program exits with an error; 
 
-### Crates
-
-- When you build with `cargo build`. The project that you build is a **binary crate**, which is an executable. 
-- A **library crate** its different from a **binary crate**. A **libary crate** contains code that is intended to be used in other programs and can't be executed on its own.
-
 ### Cargo.lock
 
 This is the mechanism that ensures you can rebuild the same artifact every time you or anyone else builds your code: Cargo will use only the versions of the dependencies you specified until you indicate otherwise. For example, say that next week version 0.8.6 of the rand crate comes out, and that version contains an important bug fix, but it also contains a regression that will break your code. To handle this, Rust creates the Cargo.lock file the first time you run cargo build, so we now have this in the guessing_game directory.
@@ -420,3 +415,15 @@ This is the mechanism that ensures you can rebuild the same artifact every time 
 When you build a project for the first time, Cargo figures out all the versions of the dependencies that fit the criteria and then writes them to the Cargo.lock file. When you build your project in the future, Cargo will see that the Cargo.lock file exists and will use the versions specified there rather than doing all the work of figuring out versions again. This lets you have a reproducible build automatically. In other words, your project will remain at 0.8.5 until you explicitly upgrade, thanks to the Cargo.lock file. Because the Cargo.lock file is important for reproducible builds, it’s often checked into source control with the rest of the code in your project.
 
 When you do want to update a crate, Cargo provides the command `update`, which will ignore the Cargo.lock file and figure out all the latest versions that fit your specifications in Cargo.toml. Cargo will then write those versions to the Cargo.lock file. 
+
+### Packages, Crates, Modules and Paths
+- A crate is the smallest amount of code that the Rust compiler considers at a time, it can come in two forms: a *binary crate* or a *library crate*
+- When you build with `cargo build`. The project that you build is a *binary crate*, which is an executable. *Binary crates* are programs that you compile to an executable that you can run, such as a command-line program or a server, and each one must have a function called `main` as the "entrypoint" of the execution 
+- A **libary crate** contains code that is intended to be used in other programs and can't be executed on its own. Library crates don’t have a `main` function, and they don’t compile to an executable. Instead, they define functionality intended to be shared with multiple projects. 
+- the root crate it's the source file from witch Rust starts the compilation to create the root module of your crate
+- Most of the time when Rustaceans say “crate”, they mean library crate
+- A package is a bundle of one or more crates that provides a set of functionality. A package contains a `Cargo.toml` file, that describe how to build those crates.
+- A package can contain multiple binary crates and optionally one library crate. When the package grows, you can extract parts into separate crates as independent dependencies. For very large projects comprising a set of interrelated packages that evolve together, cargo has **workspaces**
+- Cargo follows a convention that src/main.rs is the crate root of a binary crate with the same name as the package.
+- Cargo knows that if the package directory contains src/lib.rs, the package contains a library crate with the same name as the package, and src/lib.rs is its crate root.
+- [Modules Cheat Sheet](https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html#modules-cheat-sheet)
