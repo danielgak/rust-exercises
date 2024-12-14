@@ -424,6 +424,28 @@ When you do want to update a crate, Cargo provides the command `update`, which w
 - Most of the time when Rustaceans say “crate”, they mean library crate
 - A package is a bundle of one or more crates that provides a set of functionality. A package contains a `Cargo.toml` file, that describe how to build those crates.
 - A package can contain multiple binary crates and optionally one library crate. When the package grows, you can extract parts into separate crates as independent dependencies. For very large projects comprising a set of interrelated packages that evolve together, cargo has **workspaces**
-- Cargo follows a convention that src/main.rs is the crate root of a binary crate with the same name as the package.
-- Cargo knows that if the package directory contains src/lib.rs, the package contains a library crate with the same name as the package, and src/lib.rs is its crate root.
+- Cargo follows a convention that *src/main.rs* is the crate root of a binary crate with the same name as the package.
+- Cargo knows that if the package directory contains *src/lib.rs*, the package contains a library crate with the same name as the package, and src/lib.rs is its crate root.
 - [Modules Cheat Sheet](https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html#modules-cheat-sheet)
+- Modules helps control privacy items because in a module everything is private by default.
+- *src/main.rs* and *src/lib.rs* are called crate roots. The reason for their name is that the contents of either of these two files form a module named crate at the root of the crate’s module structure, known as the **module tree**, eg `crate:front_of_house:hosting:add_to_waitlist()`
+- An **absolute path** is the full path starting from a crate root; for code from an external crate, the absolute path begins with the crate name, and for code from the current crate, it starts with the literal *crate*, the eg. `crate:front_of_house:hosting:add_to_waitlist()` it's an absolute path within the project. Like using `/` in the filesystem.
+- A **relative path** starts from the current module and uses self, super, or an identifier in the current module.
+- Child modules wrap and hide their implementation details, but the child modules can see the context in which they’re defined
+- privacy rules apply to structs, enums, functions, methods and modules
+- `use` can bing functions into scope in an idiomatic without needing to specify the paths eg `use hosting::remove_from_waitlist` to invoque `remove_from_waitlist()` directly
+- rust does not allow brining two fucntions into scope with the same naming
+- the convention is to use the whole path when brining dependendencies into scope
+- when using `as` you can specify an alias for the brought scope
+- when we bring a name into scope with the `use` keyword, the name available in the new scope is private. if you want to export this, `pub use`
+- To use an external crate, list it in your package’s Cargo.toml file and `use` to bring items from their crates into scope.
+- **std** library is also a crate that’s external to our package. Because the standard library is shipped with the Rust language, we don’t need to change Cargo.toml to include **std**.
+- `mod` **is not an “include”** operation that you may have seen in other programming languages
+- child sub modules, can access private parent elements
+- the directories and files more closely match the module tree
+- For a module named front_of_house declared in the crate root, the compiler will look for the module’s code in:
+    - src/front_of_house.rs
+    - src/front_of_house/mod.rs (older style, still supported path)
+- For a module named hosting that is a submodule of front_of_house, the compiler will look for the module’s code in:
+    - src/front_of_house/hosting.rs (what we covered)
+    - src/front_of_house/hosting/mod.rs (older style, still supported path)
