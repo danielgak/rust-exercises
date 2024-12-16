@@ -68,8 +68,8 @@ pub fn pig_latin(word: &String) {
 // for example, “Add Sally to Engineering” or “Add Amir to Sales.”
 // Then let the user retrieve a list of all people in a department or all people in the company by department, sorted alphabetically.
 type Company = HashMap<String, Vec<String>>;
-pub fn add(company: &mut Company, addCommand: &String) {
-    let mut split = addCommand.split_whitespace();
+pub fn add(company: &mut Company, add_command: &String) {
+    let mut split = add_command.split_whitespace();
     match split.next() {
         Some(v) => assert_eq!(v, "Add"),
         None => return,
