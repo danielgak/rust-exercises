@@ -4,10 +4,11 @@ pub mod first_word;
 pub mod hash_maps;
 pub mod nested_modules;
 pub mod number_guess;
+pub mod random;
 pub mod strings;
-// TODO: pub mod vectors;
 pub mod users_and_shapes;
+pub mod vect;
 
 fn main() {
-    hash_maps::main();
+    random::main();
 }

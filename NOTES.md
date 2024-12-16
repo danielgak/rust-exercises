@@ -328,8 +328,15 @@ assert_eq!(slice, &[2, 3]);
 - slicing *"Здравствуйте"* on [0..4], would give you *Зд*, but slicing it [0..1] will result in a panic. Be carefull when creating string slices with ranges, because doing so can crash your program.
 - methods like `contains` and `replace` are usefull tools to avoid most of this nonAscii situations
 
-### HashMaps
-- The type `HashMap<K, V>` stores a mapping of keys of type *K* to values of type *V* using a hashing function
+### Collections
+
+- Unlike the built-in array and tuple types, the data these collections point to is stored on the heap, so they can grow and shrink more freely
+- There are three type of collections `vector`, `string` and `hasmap`. A `vector` allows you to store a variable number of values next to each other.
+- A `string` is a a collection of characters. 
+- A `hash map` allows you to associate a value with a specific key, it's a particular implementation from the map data stucture. 
+- `Vec<T>` allow you to store more than one value in a single data structure that puts all the values next to each other in memory
+- Vectors can only store values that are of the same type. The variants of an enum are defined under the same enum type, so when we need one type to represent elements of different types, we can define and use an enum
+- `HashMap<K, V>` stores a mapping of keys of type *K* to values of type *V* using a hashing function
 - Just like vectors, hash maps store their data on the heap
 
 ### Structs
@@ -425,10 +432,6 @@ if let Coin::Quarter(state) = coin {
 }
 ```
 
-### Collections
-
-- Unlike the built-in array and tuple types, the data these collections point to is stored on the heap, so they can grow and shrink more freely
-- There are three type of collections `vector`, `string` and `hasmap`. A `vector` allows you to store a variable number of values next to each other. A `string` is a a collection of characters. A `hash map` allows you to associate a value with a specific key, it's a particular implementation from the map data stucture. 
 
 ### Error handling
 
