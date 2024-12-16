@@ -1,5 +1,5 @@
 pub fn main() {
-    let v: Vec<i32> = Vec::new();
+    let _v: Vec<i32> = Vec::new();
     let mut v = vec![1, 2, 3];
 
     v.push(5);
@@ -21,7 +21,7 @@ pub fn main() {
 
     let mut v = vec![1, 2, 3, 4, 5];
 
-    let first = &v[0];
+    let _first = &v[0];
 
     v.push(6); // from now on, first is no longer valid
 
@@ -42,7 +42,7 @@ pub fn main() {
         Text(String),
     }
 
-    let row = vec![
+    let _row = vec![
         SpreadsheetCell::Int(3),
         SpreadsheetCell::Text(String::from("blue")),
         SpreadsheetCell::Float(10.12),

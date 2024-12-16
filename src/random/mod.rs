@@ -32,7 +32,7 @@ pub fn median_and_mode(arr: &[i64]) {
     let mut max = 0;
     let mut mode = 0;
     for (key, value) in map {
-        if (value >= max) {
+        if value >= max {
             max = value;
             mode = *key;
         }
@@ -44,7 +44,7 @@ pub fn median_and_mode(arr: &[i64]) {
 // The first consonant of each word is moved to the end of the word and ay is added, so first becomes irst-fay.
 // Words that start with a vowel have hay added to the end instead (apple becomes apple-hay). Keep in mind the details about UTF-8 encoding!
 pub fn pig_latin(word: &String) {
-    if (word.is_empty()) {
+    if word.is_empty() {
         return;
     }
 
@@ -55,7 +55,7 @@ pub fn pig_latin(word: &String) {
     }
 
     let vocals = b"aeiou";
-    if (vocals.contains(&first_byte.to_ascii_lowercase())) {
+    if vocals.contains(&first_byte.to_ascii_lowercase()) {
         println!("{word}-hay");
         return;
     }
@@ -71,7 +71,7 @@ type Company = HashMap<String, Vec<String>>;
 pub fn add(company: &mut Company, addCommand: &String) {
     let mut split = addCommand.split_whitespace();
     match split.next() {
-        Some(v) => assert_eq!(v,  "Add"),
+        Some(v) => assert_eq!(v, "Add"),
         None => return,
     };
     let subject = match split.next() {
@@ -89,4 +89,3 @@ pub fn add(company: &mut Company, addCommand: &String) {
 
     company.entry(deparment).or_insert(Vec::new()).push(subject);
 }
-

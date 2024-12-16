@@ -1,3 +1,4 @@
+pub mod advent_2024;
 pub mod enums;
 pub mod farenheit_to_celcius;
 pub mod first_word;
@@ -10,5 +11,5 @@ pub mod users_and_shapes;
 pub mod vect;
 
 fn main() {
-    random::main();
+    advent_2024::main();
 }

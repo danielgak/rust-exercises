@@ -3,14 +3,14 @@ mod front_of_house;
 use crate::nested_modules::front_of_house::hosting::remove_from_waitlist;
 
 // brining 2 function to scope and exporting them in the nested_module module
-pub use crate::nested_modules::front_of_house::hosting::{more_functions, use_toilet};
+// pub use crate::nested_modules::front_of_house::hosting::{more_functions, use_toilet};
 
 // brining io and io::Write
-use std::io::{self, Write};
-use std::{alloc, cmp::Ordering};
+// use std::io::Write;
+// use std::{alloc, cmp::Ordering};
 
 // bringing everyting
-use std::collections::*;
+// use std::collections::*;
 
 /**
  * front_of_house isn’t public, because the eat_at_restaurant function is defined in the same module as front_of_house (nested_modules)

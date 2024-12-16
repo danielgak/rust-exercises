@@ -4,23 +4,23 @@ pub fn main() {
     let s3 = String::from("initial contents"); // another function to parse the str literal
 
     // UTF 8 allows any properly encoded data
-    let hello = String::from("السلام عليكم");
-    let hello = String::from("Dobrý den");
-    let hello = String::from("Hello");
-    let hello = String::from("שלום");
-    let hello = String::from("नमस्ते");
-    let hello = String::from("こんにちは");
-    let hello = String::from("안녕하세요");
-    let hello = String::from("你好");
-    let hello = String::from("Olá");
-    let hello = String::from("Здравствуйте");
-    let hello = String::from("Hola");
+    let _hello = String::from("السلام عليكم");
+    let _hello = String::from("Dobrý den");
+    let _hello = String::from("Hello");
+    let _hello = String::from("שלום");
+    let _hello = String::from("नमस्ते");
+    let _hello = String::from("こんにちは");
+    let _hello = String::from("안녕하세요");
+    let _hello = String::from("你好");
+    let _hello = String::from("Olá");
+    let _hello = String::from("Здравствуйте");
+    let _hello = String::from("Hola");
 
     let s4 = String::from("something ") + &String::from("extra");
     let s5 = format!("{s1} {s2} {s3} {s4}"); // format! macro uses only references
     println!("{s5}");
 
-    let mut s1 = String::from("foo");
+    let s1 = String::from("foo");
     let s2 = String::from("bar");
     let s3 = s1 + &s2;
     println!("s3 is {s3}, s2 is {s2}, s1 can be used");
@@ -40,7 +40,7 @@ pub fn main() {
     s1.push('l');
     println!("s1 is {s1}, s2 is {s2}");
 
-    let hello = "Здравствуйте"; // the first byte of З is 208 and the second is 151,
+    let _hello = "Здравствуйте"; // the first byte of З is 208 and the second is 151,
 
     for c in "Зд".chars() {
         println!("{c}");
