@@ -157,20 +157,6 @@ for number in (1..4).rev() { // for
 ```
 
 
-### Matches
-
-```rust
-match guess.cmp(&secret_number) {
-    Ordering::Less => println!("Too small!"),
-    Ordering::Greater => println!("Too big!"),
-    Ordering::Equal => println!("You win!"),
-}
-```
-
-- A match expression is made up of arms. An arm consists of a pattern to match against, and the code that should be run if the value given to match fits that arm's pattern. 
-
-- Patterns and the match construct are powerful Rust features: they let you express a variety of situations your code might encounter and they make sure you handle them all. 
-
 ### Macros
 
 - println!() calls a macro, different from println() that would be calling a function
@@ -321,6 +307,31 @@ let slice = &a[1..3];
 assert_eq!(slice, &[2, 3]);
 ```
 
+### Vectors
+- // TODO:
+
+### Strings
+
+- Strings are implemented as a collection of bytes, plus some methods to provide useful functionality when those bytes are interpreted as text.
+- Two basic types:
+    - **string slices** are references to some UTF-8 encoded string data stored in the heap
+    - **string literals** are stored in the program’s binary
+- Many of the same operations available with `Vec<T>` are available with `String` as well because `String` is actually implemented as a wrapper around a vector of bytes with some extra guarantees, restrictions, and capabilities.
+- UTF 8 allows any properly encoded data
+- `let hello = String::from("Hola");` will have len will be 4, which means the vector storing the string "Hola" is 4 bytes long. Each of these letters takes one byte when encoded in UTF-8.
+- `let hello = String::from("Здравствуйте");` will have len 24: that’s the number of bytes it takes to encode “Здравствуйте” in UTF-8, because each Unicode scalar value in that string takes 2 bytes of storage.
+- Accessing individual characters in a string by referencing them by index, is not allowed in Rust `eg. str[0]`. because for the example before, `&"Здравствуйте"[0]` the letter `З` get represented in 2 values, so to avoid errors related with extracting meaningless byte values, Rust does not allow it.
+- when talking about UTF-8, there are 3 relevant ways to look at from Rust’s perspective: as bytes, scalar values, and grapheme clusters (the closest thing to what we would call letters). With the Hindi word **नमस्ते** as an example let see it in 3 views:
+    - `[224, 164, 168, 224, 164, 174, 224, 164, 184, 224, 165, 141, 224, 164, 164, 224, 165, 135]` are the bytes, 18 bytes in total
+    - `['न', 'म', 'स', '्', 'त', 'े']` are characters, there are 6, but the 4th and 6th do not make sense on their own
+    - `["न", "म", "स्", "ते"]` are  grapheme clusters, what a person would call the four letters that make up the Hindi word
+- slicing *"Здравствуйте"* on [0..4], would give you *Зд*, but slicing it [0..1] will result in a panic. Be carefull when creating string slices with ranges, because doing so can crash your program.
+- methods like `contains` and `replace` are usefull tools to avoid most of this nonAscii situations
+
+### HashMaps
+- The type `HashMap<K, V>` stores a mapping of keys of type *K* to values of type *V* using a hashing function
+- Just like vectors, hash maps store their data on the heap
+
 ### Structs
 
 - you can use field init shorthand eg. `User { email, name: "something" }`
@@ -349,7 +360,21 @@ p1.distance(&p2); // both are the same
 - Asociated functions are defined in the impl and do not have self as their first parameter. eg `Rectangle::square(2)`. They are often used as constructors
 - Struct is allowed to have multiple impl blocks
 
+### Matches
+
+```rust
+match guess.cmp(&secret_number) {
+    Ordering::Less => println!("Too small!"),
+    Ordering::Greater => println!("Too big!"),
+    Ordering::Equal => println!("You win!"),
+}
+```
+
+- A match expression is made up of arms. An arm consists of a pattern to match against, and the code that should be run if the value given to match fits that arm's pattern. 
+- Patterns and the match construct are powerful Rust features: they let you express a variety of situations your code might encounter and they make sure you handle them all. 
+
 ### Enums
+
 - a custom data type, eg. `IpAddrKind::V4`
 - Rust allows puting data directly into each enum variant, eg:
 ```rust
@@ -399,6 +424,11 @@ if let Coin::Quarter(state) = coin {
     count += 1;
 }
 ```
+
+### Collections
+
+- Unlike the built-in array and tuple types, the data these collections point to is stored on the heap, so they can grow and shrink more freely
+- There are three type of collections `vector`, `string` and `hasmap`. A `vector` allows you to store a variable number of values next to each other. A `string` is a a collection of characters. A `hash map` allows you to associate a value with a specific key, it's a particular implementation from the map data stucture. 
 
 ### Error handling
 

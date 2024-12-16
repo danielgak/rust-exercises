@@ -1,4 +1,3 @@
-mod catering;
 mod front_of_house;
 
 use crate::nested_modules::front_of_house::hosting::remove_from_waitlist;
