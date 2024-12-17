@@ -33,6 +33,7 @@ fn build_user(email: String, username: String) -> User {
 
 // allowing to print debug
 #[derive(Debug)]
+#[allow(dead_code)]
 struct User {
     active: bool,
     username: String,

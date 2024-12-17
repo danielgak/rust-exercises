@@ -1,5 +1,5 @@
-pub fn take_order() {}
+pub fn _take_order() {}
 
-pub fn serve_order() {}
+pub fn _serve_order() {}
 
-pub fn take_payment() {}
+pub fn _take_payment() {}

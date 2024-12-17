@@ -36,6 +36,7 @@ pub fn main() {
     }
     // iterating over a vector, whether immutably or mutably, is safe because of the borrow checker’s rules.
 
+    #[allow(dead_code)]
     enum SpreadsheetCell {
         Int(i32),
         Float(f64),

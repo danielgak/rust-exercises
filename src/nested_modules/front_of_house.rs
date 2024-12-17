@@ -1,6 +1,6 @@
 // as someone defined the module as front_of_house.rs, now this file behaves as a mod {} definition
 
-fn ring_the_door() {}
+fn _ring_the_door() {}
 
 pub mod catering;
 pub mod serving;
@@ -17,12 +17,12 @@ pub mod hosting {
 
     pub fn remove_from_waitlist() {}
 
-    pub fn use_toilet() {}
+    pub fn _use_toilet() {}
 
-    pub fn more_functions() {}
+    pub fn _more_functions() {}
 
-    fn seat_at_table() {
-        crate::nested_modules::front_of_house::ring_the_door(); // absolute path. Child sub modules can access private parent elements
-        catering::serve_order(); // relative path
+    fn _seat_at_table() {
+        crate::nested_modules::front_of_house::_ring_the_door(); // absolute path. Child sub modules can access private parent elements
+        catering::_serve_order(); // relative path
     }
 }

@@ -34,7 +34,7 @@ pub fn problem_01_v1() {
 }
 
 pub fn problem_01_v2() {
-    let (mut v1, mut v2) = parse_to_vectors(PROBLEM1_V2_INPUT);
+    let (v1, v2) = parse_to_vectors(PROBLEM1_V2_INPUT);
 
     let mut map = HashMap::new();
     for value in v2 {

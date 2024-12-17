@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 enum IpAddr {
     V4(u8, u8, u8, u8),
     V6(String),
@@ -5,15 +6,19 @@ enum IpAddr {
 
 fn _route(_ip_kind: IpAddr) {}
 
+#[allow(dead_code)]
 struct Ipv4Addr {}
 
+#[allow(dead_code)]
 struct Ipv6Addr {}
 
+#[allow(dead_code)]
 enum IpAddrStruct {
     V4(Ipv4Addr),
     V6(Ipv6Addr),
 }
 
+#[allow(dead_code)]
 enum Message {
     Quit,
     Move { x: i32, y: i32 },
@@ -53,12 +58,14 @@ pub fn main() {
 }
 
 #[derive(Debug)] // so we can inspect the state in a minute
+#[allow(dead_code)]
 enum UsState {
     Alabama,
     Alaska,
     // --snip--
 }
 
+#[allow(dead_code)]
 enum Coin {
     Penny,
     Nickel,
