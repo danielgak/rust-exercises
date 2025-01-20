@@ -1,3 +1,6 @@
+pub mod questions;
+pub mod questions_tests;
+
 pub fn main() {
     let s1 = String::new(); // empty
     let s2 = "initial contents".to_string(); // parsing a str literal

@@ -1,3 +1,5 @@
+use crate::strings::questions::dup_v2;
+
 pub mod advent_2024;
 pub mod enums;
 pub mod farenheit_to_celcius;
@@ -11,5 +13,5 @@ pub mod users_and_shapes;
 pub mod vect;
 
 fn main() {
-    advent_2024::main();
+    dup_v2("test");
 }
