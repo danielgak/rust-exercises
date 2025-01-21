@@ -1,4 +1,4 @@
-use crate::strings::questions::dup_v2;
+use crate::strings::questions::is_dup_v2;
 
 pub mod advent_2024;
 pub mod enums;
@@ -13,5 +13,5 @@ pub mod users_and_shapes;
 pub mod vect;
 
 fn main() {
-    dup_v2("testd");
+    is_dup_v2("testd");
 }
