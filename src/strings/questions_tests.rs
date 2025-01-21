@@ -6,25 +6,25 @@ mod tests {
     fn dup_empty_case() {
         let input = "";
 
-        let res = dup_v2(input);
+        let res = dup_v1(input) && dup_v2(input);
 
-        assert_eq!(res, true)
+        assert_eq!(res, false)
     }
 
     #[test]
     fn dup_unique() {
         let input = "abcdefghi";
 
-        let res = dup_v2(input);
+        let res = dup_v1(input) && dup_v2(input);
 
-        assert_eq!(res, true)
+        assert_eq!(res, false)
     }
 
     #[test]
     fn simple_duplication() {
         let input = "bb";
 
-        let res = dup_v2(input);
+        let res = dup_v1(input) && dup_v2(input);
 
         assert_eq!(res, true)
     }
@@ -33,7 +33,7 @@ mod tests {
     fn complicated_duplication() {
         let input = "abcdefghijkc";
 
-        let res = dup_v2(input);
+        let res = dup_v1(input) && dup_v2(input);
 
         assert_eq!(res, true)
     }

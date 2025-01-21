@@ -13,5 +13,5 @@ pub mod users_and_shapes;
 pub mod vect;
 
 fn main() {
-    dup_v2("test");
+    dup_v2("testd");
 }
